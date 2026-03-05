@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart – ShopEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">ShopEase</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#products">Products</a></li>
+            <li><a href="login.html">Account</a></li>
+        </ul>
+    </nav>
+    <div class="cart">
+        <a href="cart.html">🛒 <span id="cart-count">0</span></a>
+    </div>
+</header>
+
+<main class="page-container">
+    <h1>Your Cart</h1>
+
+    <button id="clear-cart" class="clear-btn">Clear Cart</button>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <div class="cart-footer">
+        <p class="cart-total" id="cart-total"></p>
+        <button id="checkout-btn" class="primary-btn">Proceed to Checkout</button>
+    </div>
+</main>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("cart-items");
+    const totalEl = document.getElementById("cart-total");
+    const cartCountEl = document.getElementById("cart-count");
+
+    cartCountEl.textContent = cart.length;
+
+    function renderCart() {
+        container.innerHTML = "";
+        let total = 0;
+
+        if (cart.length === 0) {
+            container.innerHTML = "<p>Your cart is empty.</p>";
+            totalEl.textContent = "";
+            document.getElementById("checkout-btn").disabled = true;
+            return;
+        }
+
+        cart.forEach((item, index) => {
+            const priceNumber = parseFloat(item.price.replace("£", ""));
+            total += priceNumber * item.quantity;
+
+            container.innerHTML += `
+                <div class="cart-item">
+                    <img src="${item.img}" alt="${item.name}">
+                    <div class="cart-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.price}</p>
+
+                        <div class="quantity-controls">
+                            <button class="qty-btn" data-action="decrease" data-index="${index}">−</button>
+                            <span class="qty-display">${item.quantity}</span>
+                            <button class="qty-btn" data-action="increase" data-index="${index}">+</button>
+                        </div>
+
+                        <p class="stock-note">Stock: ${item.stock}</p>
+                    </div>
+
+                    <button class="remove-btn" data-index="${index}">Remove</button>
+                </div>
+            `;
+        });
+
+        totalEl.textContent = "Total: £" + total.toFixed(2);
+
+        // Quantity buttons
+        document.querySelectorAll(".qty-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                const action = btn.dataset.action;
+
+                if (action === "increase" && cart[index].quantity < cart[index].stock) {
+                    cart[index].quantity++;
+                }
+
+                if (action === "decrease" && cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                renderCart();
+            });
+        });
+
+        // Remove buttons
+        document.querySelectorAll(".remove-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const index = btn.dataset.index;
+                cart.splice(index, 1);
+                localStorage.setItem("cart", JSON.stringify(cart));
+                cartCountEl.textContent = cart.length;
+                renderCart();
+            });
+        });
+    }
+
+    // Clear cart button
+    document.getElementById("clear-cart").onclick = () => {
+        if (confirm("Are you sure you want to clear your cart?")) {
+            cart = [];
+            localStorage.setItem("cart", JSON.stringify(cart));
+            cartCountEl.textContent = 0;
+            renderCart();
+        }
+    };
+
+    renderCart();
+
+    document.getElementById("checkout-btn").onclick = () => {
+        if (cart.length > 0) {
+            window.location.href = "checkout.html";
+        }
+    };
+</script>
+
+</body>
+</html>

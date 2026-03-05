@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – ShopEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <h2>Login</h2>
+        <input id="login-email" type="email" placeholder="Email">
+
+        <div class="password-wrapper">
+    <input id="login-pass" type="password" placeholder="Password">
+
+    <button type="button" id="toggle-login-pass" class="show-pass-btn">
+        <!-- Eye Closed (default) -->
+        <svg id="login-eye-closed" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/>
+        </svg>
+
+        <!-- Eye Open (hidden initially) -->
+        <svg id="login-eye-open" viewBox="0 0 24 24" style="display:none;">
+            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+        </svg>
+    </button>
+</div>
+        <button id="login-btn" class="primary-btn">Login</button>
+        <p class="auth-switch">
+            Don't have an account? <a href="register.html">Register</a>
+        </p>
+    </div>
+</div>
+
+<script>
+const loginPass = document.getElementById("login-pass");
+const toggleLogin = document.getElementById("toggle-login-pass");
+const loginEyeClosed = document.getElementById("login-eye-closed");
+const loginEyeOpen = document.getElementById("login-eye-open");
+
+toggleLogin.onclick = () => {
+    if (loginPass.type === "password") {
+        loginPass.type = "text";
+        loginEyeClosed.style.display = "none";
+        loginEyeOpen.style.display = "block";
+    } else {
+        loginPass.type = "password";
+        loginEyeClosed.style.display = "block";
+        loginEyeOpen.style.display = "none";
+    }
+};
+
+    // Existing login logic
+    document.getElementById("login-btn").onclick = () => {
+        const email = document.getElementById("login-email").value.trim();
+        const pass = document.getElementById("login-pass").value.trim();
+
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user || user.email !== email || user.pass !== pass) {
+            alert("Invalid login details.");
+        } else {
+            alert("Login successful.");
+            window.location.href = "index.html";
+        }
+    };
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register – ShopEase</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-box">
+        <h2>Create Account</h2>
+        <input id="reg-email" type="email" placeholder="Email">
+ 
+        <div class="password-wrapper">
+    <input id="reg-pass" type="password" placeholder="Password">
+
+    <button type="button" id="toggle-reg-pass" class="show-pass-btn">
+        <svg id="reg-eye-closed" viewBox="0 0 24 24">
+            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 12a4.5 4.5 0 110-9 4.5 4.5 0 010 9z"/>
+        </svg>
+
+        <svg id="reg-eye-open" viewBox="0 0 24 24" style="display:none;">
+            <path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7zm0 12a5 5 0 110-10 5 5 0 010 10z"/>
+        </svg>
+    </button>
+</div>
+        <button id="reg-btn" class="primary-btn">Register</button>
+        <p class="auth-switch">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </div>
+</div>
+
+<script>
+const regPass = document.getElementById("reg-pass");
+const toggleReg = document.getElementById("toggle-reg-pass");
+const regEyeClosed = document.getElementById("reg-eye-closed");
+const regEyeOpen = document.getElementById("reg-eye-open");
+
+toggleReg.onclick = () => {
+    if (regPass.type === "password") {
+        regPass.type = "text";
+        regEyeClosed.style.display = "none";
+        regEyeOpen.style.display = "block";
+    } else {
+        regPass.type = "password";
+        regEyeClosed.style.display = "block";
+        regEyeOpen.style.display = "none";
+    }
+};
+
+    // Existing register logic
+    document.getElementById("reg-btn").onclick = () => {
+        const email = document.getElementById("reg-email").value.trim();
+        const pass = document.getElementById("reg-pass").value.trim();
+
+        if (!email || !pass) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        const user = { email, pass };
+        localStorage.setItem("user", JSON.stringify(user));
+
+        alert("Account created.");
+        window.location.href = "login.html";
+    };
+</script>
+
+</body>
+</html>

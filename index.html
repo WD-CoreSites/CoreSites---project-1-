@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase – Demo Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">ShopEase</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="login.html">Account</a></li>
+            </ul>
+        </nav>
+        <div class="cart">
+            <a href="cart.html">🛒 <span id="cart-count">0</span></a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Modern Products for Everyday Life</h1>
+        <p>Quality items at unbeatable prices.</p>
+        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+            Shop Now
+        </button>
+    </section>
+
+    <section class="products" id="products">
+        <h2>Featured Products</h2>
+
+        <div class="filters">
+            <button data-filter="all" class="filter-btn active">All</button>
+            <button data-filter="audio" class="filter-btn">Audio</button>
+            <button data-filter="wearables" class="filter-btn">Wearables</button>
+        </div>
+
+        <div class="product-grid">
+
+            <div class="product" data-category="audio" data-stock="10">
+                <img src="images/headphones.webp" alt="Wireless Headphones">
+                <h3>Wireless Headphones</h3>
+                <p class="price">£49.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+
+            <div class="product" data-category="wearables" data-stock="5">
+                <img src="images/smart watch.webp" alt="Smart Watch">
+                <h3>Smart Watch</h3>
+                <p class="price">£74.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+
+            <div class="product" data-category="audio" data-stock="8">
+                <img src="images/bluetooth speaker.webp" alt="Bluetooth Speaker">
+                <h3>Bluetooth Speaker</h3>
+                <p class="price">£34.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+<div id="quantity-modal" class="modal">
+    <div class="modal-content">
+        <h3>Select Quantity</h3>
+        <p id="modal-product-name"></p>
+
+        <div class="qty-select">
+            <button id="qty-decrease">−</button>
+            <span id="qty-display">1</span>
+            <button id="qty-increase">+</button>
+        </div>
+
+        <button id="confirm-add" class="primary-btn">Confirm</button>
+        <button id="close-modal" class="secondary-btn">Cancel</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
